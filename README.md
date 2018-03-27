@@ -29,3 +29,4 @@ $ java -jar target/vog_app-1.0.0.jar
 
 #### if you want to move vog_app-1.0.0.jar file to other location, please move also folder dependency-jars and config folder
 
+### Thanks, Good luck!
