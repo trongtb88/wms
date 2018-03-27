@@ -1,7 +1,6 @@
 package wms.vog_app.form;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -612,6 +611,13 @@ public class ProductFrame extends JFrame {
 			}
 
 		});
+		jmiAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AboutDialog aboutDialog = new AboutDialog();
+				aboutDialog.setVisible(true);
+			}
+
+		});
 
 	}
 
@@ -619,28 +625,6 @@ public class ProductFrame extends JFrame {
 		return jTextProductId;
 	}
 
-	/**
-	 * For display status of application.
-	 *
-	 * @author tran-binh-trong
-	 */
-	private class StatusBar extends JTextField {
-
-		private static final long serialVersionUID = 88;
-
-		/** Creates a new instance of StatusBar */
-		public StatusBar() {
-			super();
-			super.setPreferredSize(new Dimension(100, 20));
-			setMessage("Ready");
-			this.setEditable(false);
-		}
-
-		public void setMessage(String message) {
-			setText(" " + message);
-		}
-
-	}
 
 	/**
 	 * Thread to search and process data return from WS
@@ -688,8 +672,7 @@ public class ProductFrame extends JFrame {
 								if (StringUtils.isNotEmpty(foundVog
 										.getProductCode())
 										&& foundVog.getProductCode().toString() != "null") {
-									historiesSearch.put(
-											foundVog.getProductCode(), foundVog);
+									historiesSearch.put(foundVog.getProductCode(), foundVog);
 									txtComRS232.setText(foundVog.getComRS232());
 									txtType.setText(foundVog.getType());
 									txtLength.setText(foundVog.getLength());
@@ -738,7 +721,7 @@ public class ProductFrame extends JFrame {
 	 * Method to send data to com
 	 *
 	 * @param data
-	 *            , currentVog
+	 * @param currentVog
 	 */
 	private void sendDataToCOM(String data, Vog currentVog) {
 		String strSerialPort = Utils.getCOMPort();
