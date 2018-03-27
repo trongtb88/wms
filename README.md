@@ -15,7 +15,7 @@ You can also:
 
 - Install maven to build
 - Install Jkd 1.8
-- Change config file with correct URL
+- Change values at configuration file with correct values for specific ENV
 
 ```sh
 $ git clone https://github.com/trongtb88/wms
