@@ -13,7 +13,7 @@ You can also:
   - Tracking application running by reading log files.
 ### Installation
 
-- Install maven to buld
+- Install maven to build
 - Install Jkd 1.8
 - Change config file with correct URL
 
