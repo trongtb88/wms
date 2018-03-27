@@ -1,8 +1,8 @@
-package wmg.vog_app.controller;
+package wms.vog_app.controller;
 
 import org.json.simple.JSONObject;
 
-import wmg.vog_app.common.Utils;
+import wms.vog_app.common.Utils;
 
 
 

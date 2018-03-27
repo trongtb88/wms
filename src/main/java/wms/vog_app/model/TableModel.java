@@ -1,4 +1,4 @@
-package wmg.vog_app.model;
+package wms.vog_app.model;
 
 import java.util.List;
 

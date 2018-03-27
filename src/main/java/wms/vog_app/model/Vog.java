@@ -1,8 +1,8 @@
-package wmg.vog_app.model;
+package wms.vog_app.model;
 
 import org.json.simple.JSONObject;
 
-import wmg.vog_app.common.VogConstants;
+import wms.vog_app.common.VogConstants;
 
 
 /***

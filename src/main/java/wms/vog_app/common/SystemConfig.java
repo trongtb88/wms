@@ -1,4 +1,4 @@
-package wmg.vog_app.common;
+package wms.vog_app.common;
 
 import java.io.IOException;
 import java.io.InputStream;

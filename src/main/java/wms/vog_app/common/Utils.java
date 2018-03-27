@@ -1,4 +1,4 @@
-package wmg.vog_app.common;
+package wms.vog_app.common;
 
 public class Utils {
 

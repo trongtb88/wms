@@ -1,4 +1,4 @@
-package wmg.vog_app.form;
+package wms.vog_app.form;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,9 +18,9 @@ import javax.swing.JTextField;
 
 import org.json.simple.JSONObject;
 
-import wmg.vog_app.common.Utils;
-import wmg.vog_app.common.VogConstants;
-import wmg.vog_app.controller.LoginController;
+import wms.vog_app.common.Utils;
+import wms.vog_app.common.VogConstants;
+import wms.vog_app.controller.LoginController;
 
 /**
  * Login screen to WS Input : userId, Password Output : userId

@@ -1,4 +1,4 @@
-package wmg.vog_app.form;
+package wms.vog_app.form;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,12 +37,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
-import wmg.vog_app.common.Utils;
-import wmg.vog_app.common.VogConstants;
-import wmg.vog_app.controller.ProductController;
-import wmg.vog_app.controller.WSController;
-import wmg.vog_app.model.TableModel;
-import wmg.vog_app.model.Vog;
+import wms.vog_app.common.Utils;
+import wms.vog_app.common.VogConstants;
+import wms.vog_app.controller.ProductController;
+import wms.vog_app.controller.WSController;
+import wms.vog_app.model.TableModel;
+import wms.vog_app.model.Vog;
 
 /**
  * Main screen to view product detail Features : Login, Logout Menu and View

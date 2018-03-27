@@ -1,6 +1,6 @@
-package wmg.vog_app;
+package wms.vog_app;
 
-import wmg.vog_app.form.ProductFrame;
+import wms.vog_app.form.ProductFrame;
 
 /**
  * Hello world!

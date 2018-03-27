@@ -1,4 +1,4 @@
-package wmg.vog_app.controller;
+package wms.vog_app.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import wmg.vog_app.common.VogConstants;
+import wms.vog_app.common.VogConstants;
 
 
 public class WSController {
