@@ -20,6 +20,12 @@ You can also:
 ```sh
 $ git clone https://github.com/trongtb88/wms
 $ cd wms
-$ mvn clean install
-$ java -jar vog_app-1.0.0.jar
+$ mvn clean package
+$ mkdir target/config
+$ chmod 755 target/config
+$ scp src/main/resources/* target/config
+$ java -jar target/vog_app-1.0.0.jar
 ```
+
+#### if you want to move vog_app-1.0.0.jar file to other location, please move also folder dependency-jars and config folder
+
