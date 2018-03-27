@@ -4,7 +4,7 @@ Requirements :
 ### Features!
 
   - Authentication with WS
-  - Get Date from WS
+  - Get Data from WS
   - Send Data to COM RS 232
 
 You can also:
