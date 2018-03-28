@@ -517,6 +517,7 @@ public class ProductFrame extends JFrame {
 							Vog vog = (Vog) historiesSearch.get(jTableData
 									.getValueAt(jTableData.getSelectedRow(), 0)
 									.toString());
+							txtProductCode.setText(vog.getProductCode());
 							txtComRS232.setText(vog.getComRS232());
 							txtType.setText(vog.getType());
 							txtLength.setText(vog.getLength());
