@@ -4,7 +4,7 @@ Requirements :
 ### Features!
 
   - Authentication with WS
-  - Get Date from WS
+  - Get Data from WS
   - Send Data to COM RS 232
 
 You can also:
@@ -15,7 +15,7 @@ You can also:
 
 - Install maven to build
 - Install Jkd 1.8
-- Change config file with correct URL
+- Change values at configuration file with correct values for specific ENV
 
 ```sh
 $ git clone https://github.com/trongtb88/wms
@@ -29,3 +29,4 @@ $ java -jar target/vog_app-1.0.0.jar
 
 #### if you want to move vog_app-1.0.0.jar file to other location, please move also folder dependency-jars and config folder
 
+### Thanks, Good luck!
