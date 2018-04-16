@@ -7,9 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -55,7 +58,7 @@ public class ProductFrame extends JFrame {
 	private static final long serialVersionUID = 99L;
 	final static Logger logger = Logger.getLogger(WSController.class);
 
-	private Map historiesSearch = new HashMap<String, Vog>();
+	private Map<String, Vog> historiesSearch = new LinkedHashMap<String, Vog>();
 	private String userId = "";
 	private String fullName = "";
 
@@ -483,6 +486,10 @@ public class ProductFrame extends JFrame {
 				jMainPanel, javax.swing.GroupLayout.Alignment.TRAILING,
 				javax.swing.GroupLayout.DEFAULT_SIZE,
 				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+		jScrollPane3.setHorizontalScrollBarPolicy(
+			   JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		jScrollPane3.setVerticalScrollBarPolicy(
+			   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
 
 		pack();
 
@@ -560,6 +567,7 @@ public class ProductFrame extends JFrame {
 					VogConstants.REQUIRED_INPUT_MSG, "Input error",
 					JOptionPane.ERROR_MESSAGE);
 			txtProductCode.requestFocus();
+			txtProductCode.selectAll();
 		}
 	}
 
@@ -686,7 +694,7 @@ public class ProductFrame extends JFrame {
 									statusBar
 											.setText("Search completed, Found 1 record");
 									txtProductCode.requestFocus();
-
+									txtProductCode.selectAll();
 									// 3. Send Data to COM port
 									if (!isFailedCallWS
 											&& StringUtils.isNotEmpty(foundVog
@@ -768,10 +776,11 @@ public class ProductFrame extends JFrame {
 	 *
 	 * @param historiesSearch
 	 */
-	private void setDataTable(Map historiesSearch) {
+	private void setDataTable(Map<String, Vog> historiesSearch) {
 
 		if (!historiesSearch.isEmpty()) {
 			List<Vog> vogs = new ArrayList<Vog>(historiesSearch.values());
+			Collections.reverse(vogs);
 			TableModel model = new TableModel(vogs);
 			this.jTableData.setModel(model);
 			this.jTableData.updateUI();
