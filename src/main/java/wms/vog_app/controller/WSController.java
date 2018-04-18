@@ -47,9 +47,6 @@ public class WSController {
 				JSONParser parser = new JSONParser();
 				
 				while ((output = br.readLine()) != null) {
-					System.out.println("OUTPUT RESPONSE " + output);
-				}
-				while ((output = br.readLine()) != null) {
 					try {
 						logger.info("WS Response Data : " + output);
 						result = (JSONObject) parser.parse(output);
