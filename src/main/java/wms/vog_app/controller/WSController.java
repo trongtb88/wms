@@ -35,7 +35,7 @@ public class WSController {
 			OutputStream os = conn.getOutputStream();
 			os.write(jSONObject.toJSONString().getBytes());
 			os.flush();
-
+			System.out.println("WS Response HTTP Code " + conn.getResponseCode());
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				logger.info("WS Response HTTP Code : " + conn.getResponseCode());
 				result.put("code", VogConstants.WS_FAILED);
@@ -45,6 +45,10 @@ public class WSController {
 
 				String output;
 				JSONParser parser = new JSONParser();
+				
+				while ((output = br.readLine()) != null) {
+					System.out.println("OUTPUT RESPONSE " + output);
+				}
 				while ((output = br.readLine()) != null) {
 					try {
 						logger.info("WS Response Data : " + output);
