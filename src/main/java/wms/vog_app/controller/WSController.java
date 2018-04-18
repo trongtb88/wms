@@ -52,9 +52,8 @@ public class WSController {
 				while ((output = br.readLine()) != null) {
 					try {
 						logger.info("WS Response Data : " + output);
-						if (Utils.isJSONValid(output)) {
-							result = (JSONObject) parser.parse(output);
-						}
+						result = (JSONObject) parser.parse(output);
+						
 					} catch (org.json.simple.parser.ParseException e) {
 						e.printStackTrace();
 					}
