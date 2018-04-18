@@ -1,5 +1,13 @@
 package wms.vog_app.common;
 
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+
+
 public class Utils {
 
 	private static final String WS_URL_LOGIN = "ws.url.checklogin";
@@ -64,4 +72,15 @@ public class Utils {
 	public static int getCOMParity() {
 		return Integer.valueOf(SystemConfig.getProperties().getProperty(APP_COM_PARITY));
 	}
+	
+	public static boolean isJSONValid(String jsonInString ) {
+		JSONParser parser = new JSONParser();
+	    try {
+	    	JSONObject result = (JSONObject) parser.parse(jsonInString);
+	    	return true;
+	    } catch (Exception e) {
+	    	return false;
+	    }
+	  }
+	
 }

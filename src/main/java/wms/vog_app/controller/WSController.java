@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import wms.vog_app.common.Utils;
 import wms.vog_app.common.VogConstants;
 
 
@@ -47,7 +48,9 @@ public class WSController {
 				while ((output = br.readLine()) != null) {
 					try {
 						logger.info("WS Response Data : " + output);
-						result = (JSONObject) parser.parse(output);
+						if (Utils.isJSONValid(output)) {
+							result = (JSONObject) parser.parse(output);
+						}
 					} catch (org.json.simple.parser.ParseException e) {
 						e.printStackTrace();
 					}
