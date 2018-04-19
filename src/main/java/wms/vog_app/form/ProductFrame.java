@@ -1,6 +1,7 @@
 package wms.vog_app.form;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,9 +29,11 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
@@ -44,6 +47,7 @@ import wms.vog_app.common.VogConstants;
 import wms.vog_app.controller.ProductController;
 import wms.vog_app.controller.WSController;
 import wms.vog_app.model.TableModel;
+import wms.vog_app.model.TableModel.MyModelTableRender;
 import wms.vog_app.model.Vog;
 
 /**
@@ -83,6 +87,8 @@ public class ProductFrame extends JFrame {
 	private int mainFontSize = Utils.getMainFontSize();
 	private String tableFontStyle = Utils.getTableFontStyle();
 	private int tableFontSize = Utils.getTableFontSize();
+	
+	private String receivedDataCom = "";
 
 	private ProductController productController = new ProductController(
 			getUserId());
@@ -150,6 +156,12 @@ public class ProductFrame extends JFrame {
 		jTableData.setModel(model);
 		jTableData.getTableHeader().setFont(
 				new Font(tableFontStyle, 0, tableFontSize));
+
+		jTableData.setDefaultRenderer(Object.class, new MyModelTableRender());
+		jTableData.setColumnSelectionAllowed(false);
+		jTableData.setRowSelectionAllowed(true);
+		jTableData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		jScrollPane2.setViewportView(jTableData);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -703,6 +715,7 @@ public class ProductFrame extends JFrame {
 												foundVog);
 									}
 									setDataTable(historiesSearch);
+									receivedDataCom = txtProductCode.getText();
 
 								} else {
 									JOptionPane.showMessageDialog(null,
@@ -751,8 +764,11 @@ public class ProductFrame extends JFrame {
 			// Update value on jtable cell
 			currentVog.setComSentStatus(VogConstants.COM_OK);
 
-			JSONObject outputUpdateVog = productController
-					.updateBarCodeWS(this.txtProductCode.getText().trim());
+			JSONObject outputUpdateVog = productController.updateBarCodeWS(this.txtProductCode.getText().trim());
+			
+			//Call Update webservice RS232.
+			productController.updateRS232(this.txtProductCode.getText().trim());
+
 			if (outputUpdateVog.containsKey("code")
 					&& outputUpdateVog.get("code").toString()
 							.equals(VogConstants.WS_OK)) {
@@ -803,5 +819,55 @@ public class ProductFrame extends JFrame {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+	
+	public class MyModelTableRender extends DefaultTableCellRenderer{
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+	        Component tableCellRendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBackground(Color.WHITE);
+            setForeground(Color.BLACK);
+            if (isSelected || hasFocus) {
+                this.setBackground(Color.BLUE);
+                this.setForeground(Color.WHITE);
+
+            } else {
+            	setBackground(Color.WHITE);
+                setForeground(Color.BLACK);
+            }
+            
+            String productCode = (String) table.getValueAt(row, 0);
+	        if (column == 6) {
+		        System.out.println(getReceivedDataCom() + productCode);
+	        	Vog vog = historiesSearch.get(productCode);
+	        	if (vog != null) {
+	        		if (getReceivedDataCom() != null 
+	        				&& getReceivedDataCom().length() > 0 
+	        				&& vog.getProductCode().toString().contains("123")) {
+		                setBackground(Color.RED);
+		            }
+	        	}
+	        }
+            return tableCellRendererComponent;
+	    }
+	}
+	
+	public void updateColor() {
+		receivedDataCom = "456";
+		jTableData.repaint();
+	}
+
+	public String getReceivedDataCom() {
+		return receivedDataCom;
+	}
+
+	public void setReceivedDataCom(String receivedDataCom) {
+		this.receivedDataCom = receivedDataCom;
+	}
+
 
 }

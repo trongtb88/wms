@@ -16,6 +16,7 @@ public class ProductController {
 	private WSController wSController ;
 	String WS_URL_DETAIL_VOG = Utils.getWSDetailVogURL();
 	String WS_URL_UPDATE_VOG = Utils.getWSUpdateVogURL();
+	String WS_URL_UPDATE_RS232__VOG = Utils.getWSUpdateRS232URL();
 
     public ProductController(String userId) {
     	this.userId = userId;
@@ -32,6 +33,12 @@ public class ProductController {
     	inputWS.put("userId", userId);
     	inputWS.put("barcode", barcode);
     	return wSController.processData(WS_URL_UPDATE_VOG, inputWS, "POST");
+    }
+    public JSONObject updateRS232(String barcode) {
+    	JSONObject inputWS = new JSONObject();
+    	inputWS.put("userId", userId);
+    	inputWS.put("barcode", barcode);
+    	return wSController.processData(WS_URL_UPDATE_RS232__VOG, inputWS, "POST");
     }
 	public String getUserId() {
 		return userId;

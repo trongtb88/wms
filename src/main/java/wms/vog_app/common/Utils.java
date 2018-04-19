@@ -13,6 +13,7 @@ public class Utils {
 	private static final String WS_URL_LOGIN = "ws.url.checklogin";
 	private static final String WS_URL_DETAIL_VOG = "ws.url.detailVog";
 	private static final String WS_URL_UPDATE_VOG = "ws.url.updateVog";
+	private static final String WS_URL_UPDATE_RS232_VOG = "ws.url.updateRS232";
 
 	private static final String APP_VERSION = "project.version";
 	private static final String APP_MAIN_FONT_STYLE= "project.main.fontStyle";
@@ -35,6 +36,10 @@ public class Utils {
 
 	public static final String getWSUpdateVogURL() {
 		return SystemConfig.getProperties().getProperty(WS_URL_UPDATE_VOG);
+	}
+	
+	public static final String getWSUpdateRS232URL() {
+		return SystemConfig.getProperties().getProperty(WS_URL_UPDATE_RS232_VOG);
 	}
 
 	public static final String getAppVersion() {

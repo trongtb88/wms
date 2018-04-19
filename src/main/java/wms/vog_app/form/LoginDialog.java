@@ -274,7 +274,6 @@ public class LoginDialog extends JDialog {
 		}
 		JSONObject loginOutputObj = LoginController.checkLogin(getUsername(),
 				getPassword());
-		System.out.println("GET CODE "+ loginOutputObj.containsKey("code"));
 		if (loginOutputObj != null
 				&& loginOutputObj.get("code").toString()
 						.equals(VogConstants.LOGIN_OK_CODE)) {
