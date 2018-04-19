@@ -878,9 +878,9 @@ public class ProductFrame extends JFrame {
 	        	if (vog != null) {
 	        		if (getReceivedDataCom() != null 
 	        				&& getReceivedDataCom().length() > 0 
-	        				&& vog.getProductCode().toString().contains("123")) {
-		                setBackground(Color.RED);
-		            }
+	        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
+	        		    setBackground(Color.green);
+	        		}
 	        	}
 	        }
             return tableCellRendererComponent;
