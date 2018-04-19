@@ -36,6 +36,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -749,7 +751,7 @@ public class ProductFrame extends JFrame {
 		String strSerialPort = Utils.getCOMPort();
 		logger.info("Start sending data to COM...");
 		statusBar.setText("Start sending data to COM...");
-		SerialPort serialPort = new SerialPort(strSerialPort);
+		final SerialPort serialPort = new SerialPort(strSerialPort);
 		try {
 			// Open serial port
 			serialPort.openPort();
@@ -766,9 +768,38 @@ public class ProductFrame extends JFrame {
 
 			JSONObject outputUpdateVog = productController.updateBarCodeWS(this.txtProductCode.getText().trim());
 			
-			//Call Update webservice RS232.
-			productController.updateRS232(this.txtProductCode.getText().trim());
-
+			// Add event to listen data from com port.
+			serialPort.addEventListener(new SerialPortEventListener() {
+			    @Override
+                		public void serialEvent(SerialPortEvent serialPortEvent) {
+                		    if (serialPortEvent.isRXCHAR()) { // if we receive data
+                			if (serialPortEvent.getEventValue() > 0) { // if there
+                								   // is some
+                								   // existent
+                								   // data
+                			    try {
+                				String receivedData = serialPort.readString();
+                				byte[] bytes = serialPort.readBytes();
+                				System.out.println("RECEIVED FROM COM in bytes " + new String(bytes));
+                				logger.info("RECEIVED FROM COM" + receivedData);
+                				// Change color of this rsr232
+                				if (StringUtils.isNotEmpty(receivedData)) {
+                				    //Call Update webservice RS232.
+                				    updateColor(receivedData);
+                				    logger.info("Calling update WS RS232 ");
+                				    productController.updateRS232(txtProductCode.getText().trim());
+                				    logger.info("Update WS RS232 successfully.");
+                				}
+                			    } catch (SerialPortException e) {
+                				logger.error("Reading data from COM fail update WS RS232 ");
+                				e.printStackTrace();
+                			    }
+                
+                			}
+                		    }
+                		}
+    
+			});
 			if (outputUpdateVog.containsKey("code")
 					&& outputUpdateVog.get("code").toString()
 							.equals(VogConstants.WS_OK)) {
@@ -856,17 +887,17 @@ public class ProductFrame extends JFrame {
 	    }
 	}
 	
-	public void updateColor() {
-		receivedDataCom = "456";
-		jTableData.repaint();
+	public void updateColor(String receivedData) {
+	    setReceivedDataCom(receivedData);
+	    jTableData.repaint();
 	}
 
 	public String getReceivedDataCom() {
-		return receivedDataCom;
+	    return receivedDataCom;
 	}
 
 	public void setReceivedDataCom(String receivedDataCom) {
-		this.receivedDataCom = receivedDataCom;
+	    this.receivedDataCom = receivedDataCom;
 	}
 
 
