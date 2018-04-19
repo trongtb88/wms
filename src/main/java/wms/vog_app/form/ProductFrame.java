@@ -760,7 +760,6 @@ public class ProductFrame extends JFrame {
 					Utils.getCOMParity());
 			// Write data to port
 			serialPort.writeBytes(data.getBytes());
-			serialPort.closePort();
 			statusBar.setText("Sending data to COM successfully!");
 			logger.info("Sending data to COM successfully!");
 			// Update value on jtable cell
