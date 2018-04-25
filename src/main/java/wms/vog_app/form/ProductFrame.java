@@ -666,6 +666,7 @@ public class ProductFrame extends JFrame {
 			Vog vog = new Vog();
 			boolean isFailedWS = false;
 			final String searchValue = txtProductCode.getText().trim();
+		    boolean isDuplicate = false;
 
 			// 1. Get detail product from WS
 			if (!historiesSearch.containsKey(txtProductCode.getText().trim())) {
@@ -681,9 +682,12 @@ public class ProductFrame extends JFrame {
 				}
 			} else {
 				vog = (Vog) historiesSearch.get(searchValue);
+				isDuplicate = true;
 			}
 			final Vog foundVog = vog;
 			final boolean isFailedCallWS = isFailedWS;
+			final boolean isDuplicateBarcodeCallWS = isDuplicate;
+
 
 			// 2. Update GUI
 			SwingUtilities.invokeLater(new Runnable() {
@@ -713,8 +717,11 @@ public class ProductFrame extends JFrame {
 									if (!isFailedCallWS
 											&& StringUtils.isNotEmpty(foundVog
 													.getComRS232())) {
-										sendDataToCOM(foundVog.getComRS232(),
+										if (!isDuplicateBarcodeCallWS || Utils.isCallCOMIfDuplicateBarcode()) {
+											System.out.println("Call to COM");
+											sendDataToCOM(foundVog.getComRS232(),
 												foundVog);
+										}
 									}
 									setDataTable(historiesSearch);
 									receivedDataCom = txtProductCode.getText();

@@ -25,6 +25,8 @@ public class Utils {
 	private static final String APP_COM_DATABITS= "project.com.databits";
 	private static final String APP_COM_STOPBITS= "project.com.stopbits";
 	private static final String APP_COM_PARITY= "project.com.parity";
+	private static final String APP_COM_CHECK_DUPLICATE_BARCODE = "project.call.com.duplicate.barcode";
+
 
 	public static final String getWSLoginURL() {
 		return SystemConfig.getProperties().getProperty(WS_URL_LOGIN);
@@ -76,6 +78,9 @@ public class Utils {
 	}
 	public static int getCOMParity() {
 		return Integer.valueOf(SystemConfig.getProperties().getProperty(APP_COM_PARITY));
+	}
+	public static boolean isCallCOMIfDuplicateBarcode() {
+		return (Integer.valueOf(SystemConfig.getProperties().getProperty(APP_COM_CHECK_DUPLICATE_BARCODE)) == 1);
 	}
 	
 	public static boolean isJSONValid(String jsonInString ) {
