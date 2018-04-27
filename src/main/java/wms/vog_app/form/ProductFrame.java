@@ -122,7 +122,46 @@ public class ProductFrame extends JFrame {
 		
 		String strSerialPort = Utils.getCOMPort();
 		if (serialPort == null) {
+			
 			serialPort = new SerialPort(strSerialPort);
+			
+			// Add event to listen data from com port.
+			try {
+				serialPort.addEventListener(new SerialPortEventListener() {
+				    @Override
+				    		public void serialEvent(SerialPortEvent serialPortEvent) {
+				    		    if (serialPortEvent.isRXCHAR()) { // if we receive data
+					    			if (serialPortEvent.getEventValue() > 0) { // if there
+					    								   // is some
+					    								   // existent
+					    								   // data
+					    			    try {
+					        				String receivedData = serialPort.readString();
+					        				byte[] bytes = serialPort.readBytes();
+					        				System.out.println("RECEIVED FROM COM in String " + new String(bytes));
+					        				logger.info("RECEIVED FROM COM  in bytes" + bytes);
+					        				// Change color of this rsr232
+					        				if (StringUtils.isNotEmpty(receivedData)) {
+					        				    //Call Update webservice RS232.
+					        				    updateColor(receivedData);
+					        				    logger.info("Calling update WS RS232 ");
+					        				    productController.updateRS232(txtProductCode.getText().trim());
+					        				    logger.info("Update WS RS232 successfully.");
+					        				}
+					    			    } catch (SerialPortException e) {
+					    				logger.error("Reading data from COM fail update WS RS232 ");
+					    				e.printStackTrace();
+					    			    }
+					    
+					    			}
+				    		    }
+				    		}
+   
+				});
+			} catch (SerialPortException e) {
+				e.printStackTrace();
+			}
+						
 		}
 
 	}
@@ -789,38 +828,7 @@ public class ProductFrame extends JFrame {
 
 			JSONObject outputUpdateVog = productController.updateBarCodeWS(this.txtProductCode.getText().trim());
 			
-			// Add event to listen data from com port.
-			serialPort.addEventListener(new SerialPortEventListener() {
-			    @Override
-                		public void serialEvent(SerialPortEvent serialPortEvent) {
-                		    if (serialPortEvent.isRXCHAR()) { // if we receive data
-                			if (serialPortEvent.getEventValue() > 0) { // if there
-                								   // is some
-                								   // existent
-                								   // data
-                			    try {
-	                				String receivedData = serialPort.readString();
-	                				byte[] bytes = serialPort.readBytes();
-	                				System.out.println("RECEIVED FROM COM in String " + new String(bytes));
-	                				logger.info("RECEIVED FROM COM  in bytes" + bytes);
-	                				// Change color of this rsr232
-	                				if (StringUtils.isNotEmpty(receivedData)) {
-	                				    //Call Update webservice RS232.
-	                				    updateColor(receivedData);
-	                				    logger.info("Calling update WS RS232 ");
-	                				    productController.updateRS232(txtProductCode.getText().trim());
-	                				    logger.info("Update WS RS232 successfully.");
-	                				}
-                			    } catch (SerialPortException e) {
-                				logger.error("Reading data from COM fail update WS RS232 ");
-                				e.printStackTrace();
-                			    }
-                
-                			}
-                		    }
-                		}
-    
-			});
+			
 			if (outputUpdateVog.containsKey("code")
 					&& outputUpdateVog.get("code").toString()
 							.equals(VogConstants.WS_OK)) {
