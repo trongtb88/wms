@@ -119,6 +119,11 @@ public class ProductFrame extends JFrame {
 		txtProductCode.requestFocus();
 		setDataTable(historiesSearch);
 		statusBar.setFont(new java.awt.Font(tableFontStyle, 0, tableFontSize));
+		
+		String strSerialPort = Utils.getCOMPort();
+		if (serialPort == null) {
+			serialPort = new SerialPort(strSerialPort);
+		}
 
 	}
 
@@ -763,10 +768,9 @@ public class ProductFrame extends JFrame {
 	 * @param currentVog
 	 */
 	private void sendDataToCOM(String data, Vog currentVog) {
-		String strSerialPort = Utils.getCOMPort();
+		
 		logger.info("Start sending data to COM...");
 		statusBar.setText("Start sending data to COM...");
-		serialPort = new SerialPort(strSerialPort);
 		try {
 			// Open serial port
 			if (!serialPort.isOpened()) {
@@ -797,8 +801,8 @@ public class ProductFrame extends JFrame {
                 			    try {
 	                				String receivedData = serialPort.readString();
 	                				byte[] bytes = serialPort.readBytes();
-	                				System.out.println("RECEIVED FROM COM in bytes " + new String(bytes));
-	                				logger.info("RECEIVED FROM COM" + receivedData);
+	                				System.out.println("RECEIVED FROM COM in String " + new String(bytes));
+	                				logger.info("RECEIVED FROM COM  in bytes" + bytes);
 	                				// Change color of this rsr232
 	                				if (StringUtils.isNotEmpty(receivedData)) {
 	                				    //Call Update webservice RS232.
@@ -821,7 +825,7 @@ public class ProductFrame extends JFrame {
 					&& outputUpdateVog.get("code").toString()
 							.equals(VogConstants.WS_OK)) {
 				statusBar.setText("Update barcode again successfully");
-				logger.info("Sending data to COM successfully!");
+				logger.info("Update barcode again successfully!");
 			} else {
 				statusBar.setText("Update barcode again failed");
 				logger.info("Update barcode again failed");
