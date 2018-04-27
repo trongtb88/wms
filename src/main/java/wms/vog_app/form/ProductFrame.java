@@ -123,10 +123,14 @@ public class ProductFrame extends JFrame {
 		String strSerialPort = Utils.getCOMPort();
 		if (serialPort == null) {
 			
-			serialPort = new SerialPort(strSerialPort);
+			serialPort = new SerialPort(strSerialPort);	
 			
 			// Add event to listen data from com port.
 			try {
+				// Open serial port
+				if (!serialPort.isOpened()) {
+						serialPort.openPort();
+				}
 				serialPort.addEventListener(new SerialPortEventListener() {
 				    @Override
 				    		public void serialEvent(SerialPortEvent serialPortEvent) {
@@ -811,11 +815,6 @@ public class ProductFrame extends JFrame {
 		logger.info("Start sending data to COM...");
 		statusBar.setText("Start sending data to COM...");
 		try {
-			// Open serial port
-			if (!serialPort.isOpened()) {
-				serialPort.openPort();
-
-			}
 			serialPort.setParams(Utils.getCOMBaudRate(),
 					Utils.getCOMDataBits(), Utils.getCOMSTopBits(),
 					Utils.getCOMParity());
