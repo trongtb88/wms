@@ -142,7 +142,7 @@ public class ProductFrame extends JFrame {
 					    			    try {
 					        				String receivedData = serialPort.readString();
 					        				byte[] bytes = serialPort.readBytes();
-					        				System.out.println("RECEIVED FROM COM in String " + new String(bytes));
+					        				System.out.println("RECEIVED FROM COM in String " + receivedData);
 					        				logger.info("RECEIVED FROM COM  in bytes" + bytes);
 					        				// Change color of this rsr232
 					        				if (StringUtils.isNotEmpty(receivedData)) {
