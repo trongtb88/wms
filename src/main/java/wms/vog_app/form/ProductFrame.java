@@ -89,6 +89,7 @@ public class ProductFrame extends JFrame {
 	private int mainFontSize = Utils.getMainFontSize();
 	private String tableFontStyle = Utils.getTableFontStyle();
 	private int tableFontSize = Utils.getTableFontSize();
+	public SerialPort serialPort ;
 	
 	private String receivedDataCom = "";
 
@@ -558,6 +559,13 @@ public class ProductFrame extends JFrame {
 						"Really Closing?", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					System.exit(0);
+					try {
+						if (serialPort.isOpened()) {
+							serialPort.closePort();
+						}
+					} catch (SerialPortException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -758,10 +766,13 @@ public class ProductFrame extends JFrame {
 		String strSerialPort = Utils.getCOMPort();
 		logger.info("Start sending data to COM...");
 		statusBar.setText("Start sending data to COM...");
-		final SerialPort serialPort = new SerialPort(strSerialPort);
+		serialPort = new SerialPort(strSerialPort);
 		try {
 			// Open serial port
-			serialPort.openPort();
+			if (!serialPort.isOpened()) {
+				serialPort.openPort();
+
+			}
 			serialPort.setParams(Utils.getCOMBaudRate(),
 					Utils.getCOMDataBits(), Utils.getCOMSTopBits(),
 					Utils.getCOMParity());
@@ -784,18 +795,18 @@ public class ProductFrame extends JFrame {
                 								   // existent
                 								   // data
                 			    try {
-                				String receivedData = serialPort.readString();
-                				byte[] bytes = serialPort.readBytes();
-                				System.out.println("RECEIVED FROM COM in bytes " + new String(bytes));
-                				logger.info("RECEIVED FROM COM" + receivedData);
-                				// Change color of this rsr232
-                				if (StringUtils.isNotEmpty(receivedData)) {
-                				    //Call Update webservice RS232.
-                				    updateColor(receivedData);
-                				    logger.info("Calling update WS RS232 ");
-                				    productController.updateRS232(txtProductCode.getText().trim());
-                				    logger.info("Update WS RS232 successfully.");
-                				}
+	                				String receivedData = serialPort.readString();
+	                				byte[] bytes = serialPort.readBytes();
+	                				System.out.println("RECEIVED FROM COM in bytes " + new String(bytes));
+	                				logger.info("RECEIVED FROM COM" + receivedData);
+	                				// Change color of this rsr232
+	                				if (StringUtils.isNotEmpty(receivedData)) {
+	                				    //Call Update webservice RS232.
+	                				    updateColor(receivedData);
+	                				    logger.info("Calling update WS RS232 ");
+	                				    productController.updateRS232(txtProductCode.getText().trim());
+	                				    logger.info("Update WS RS232 successfully.");
+	                				}
                 			    } catch (SerialPortException e) {
                 				logger.error("Reading data from COM fail update WS RS232 ");
                 				e.printStackTrace();
