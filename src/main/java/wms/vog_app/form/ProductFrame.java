@@ -90,11 +90,11 @@ public class ProductFrame extends JFrame {
 	private String tableFontStyle = Utils.getTableFontStyle();
 	private int tableFontSize = Utils.getTableFontSize();
 	public SerialPort serialPort ;
+	private ProductController productController = null;
 	
 	private String receivedDataCom = "";
 
-	private ProductController productController = new ProductController(
-			getUserId());
+	
 
 	public ProductFrame() {
 
@@ -119,6 +119,9 @@ public class ProductFrame extends JFrame {
 		txtProductCode.requestFocus();
 		setDataTable(historiesSearch);
 		statusBar.setFont(new java.awt.Font(tableFontStyle, 0, tableFontSize));
+		
+		productController = new ProductController(
+				getUserId());
 		
 		String strSerialPort = Utils.getCOMPort();
 		if (serialPort == null) {

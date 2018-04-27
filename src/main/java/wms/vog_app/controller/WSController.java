@@ -71,7 +71,9 @@ public class WSController {
 			e.printStackTrace();
 
 		} finally {
-			conn.disconnect();
+			if (conn != null) {
+				conn.disconnect();
+			}
 		}
 		return result;
 
