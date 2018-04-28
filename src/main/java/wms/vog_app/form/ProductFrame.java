@@ -884,6 +884,8 @@ public class ProductFrame extends JFrame {
 		this.fullName = fullName;
 	}
 	
+	private Map<String, String> mapColor = new HashMap<String, String>();
+	
 	public class MyModelTableRender extends DefaultTableCellRenderer{
 	    /**
 		 * 
@@ -893,7 +895,8 @@ public class ProductFrame extends JFrame {
 		@Override
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
 	        Component tableCellRendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	        System.out.println("");
+	        System.out.println("Call getTableCellRendererComponent");
+	        
             setBackground(Color.WHITE);
             setForeground(Color.BLACK);
             if (isSelected || hasFocus) {
@@ -908,17 +911,23 @@ public class ProductFrame extends JFrame {
             String productCode = (String) table.getValueAt(row, 0);
 	        if (column == 6) {
 		        System.out.println("getTableCellRendererComponent Color " + productCode);
+		        
+		        if (mapColor.containsKey(productCode)) {
+		        	setBackground(Color.green);
+		        } else {
+		        	System.out.println( "getTableCellRendererComponent getReceivedDataCom" +  getReceivedDataCom() + productCode);
+		        	Vog vog = historiesSearch.get(productCode);
+		        	if (vog != null) {
+		        		if (getReceivedDataCom() != null 
+		        				&& getReceivedDataCom().length() > 0 
+		        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
+		        			System.out.println("Change color");
+		        		    setBackground(Color.green);
+		        		    mapColor.put(vog.getComRS232(), Color.green.toString());
+		        		}
+		        	}
+		        }
 
-		        System.out.println( "getTableCellRendererComponent getReceivedDataCom" +  getReceivedDataCom() + productCode);
-	        	Vog vog = historiesSearch.get(productCode);
-	        	if (vog != null) {
-	        		if (getReceivedDataCom() != null 
-	        				&& getReceivedDataCom().length() > 0 
-	        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
-	        			System.out.println("Change color");
-	        		    setBackground(Color.green);
-	        		}
-	        	}
 	        }
             return tableCellRendererComponent;
 	    }
