@@ -150,7 +150,9 @@ public class ProductFrame extends JFrame {
 					        				// Change color of this rsr232
 					        				if (StringUtils.isNotEmpty(receivedData)) {
 					        				    //Call Update webservice RS232.
-					        				    updateColor(receivedData);
+					        					if (StringUtils.isNotEmpty(receivedData)) {
+						        				    updateColor(receivedData.trim());
+					        					}
 					        				    logger.info("Calling update WS RS232 ");
 					        				    productController.updateRS232(txtProductCode.getText().trim());
 					        				    logger.info("Update WS RS232 successfully.");
