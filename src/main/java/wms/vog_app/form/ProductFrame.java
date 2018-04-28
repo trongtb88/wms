@@ -923,7 +923,7 @@ public class ProductFrame extends JFrame {
 		        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
 		        			System.out.println("Change color");
 		        		    setBackground(Color.green);
-		        		    mapColor.put(vog.getComRS232(), Color.green.toString());
+		        		    mapColor.put(productCode, Color.green.toString());
 		        		}
 		        	}
 		        }
