@@ -891,6 +891,7 @@ public class ProductFrame extends JFrame {
 		@Override
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
 	        Component tableCellRendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	        System.out.println("");
             setBackground(Color.WHITE);
             setForeground(Color.BLACK);
             if (isSelected || hasFocus) {
@@ -904,12 +905,15 @@ public class ProductFrame extends JFrame {
             
             String productCode = (String) table.getValueAt(row, 0);
 	        if (column == 6) {
-		        System.out.println(getReceivedDataCom() + productCode);
+		        System.out.println("getTableCellRendererComponent Color " + productCode);
+
+		        System.out.println( "getTableCellRendererComponent getReceivedDataCom" +  getReceivedDataCom() + productCode);
 	        	Vog vog = historiesSearch.get(productCode);
 	        	if (vog != null) {
 	        		if (getReceivedDataCom() != null 
 	        				&& getReceivedDataCom().length() > 0 
 	        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
+	        			System.out.println("Change color");
 	        		    setBackground(Color.green);
 	        		}
 	        	}
