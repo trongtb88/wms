@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -93,7 +94,8 @@ public class ProductFrame extends JFrame {
 	private ProductController productController = null;
 	
 	private String receivedDataCom = "";
-
+	private List<String> lstStringReceivedRS232 = new ArrayList();
+	private StringBuilder strReceivedAllRS232 = new StringBuilder();
 	
 
 	public ProductFrame() {
@@ -149,9 +151,11 @@ public class ProductFrame extends JFrame {
 					        				logger.info("RECEIVED FROM COM  in bytes" + bytes);
 					        				// Change color of this rsr232
 					        				if (StringUtils.isNotEmpty(receivedData)) {
+					        					strReceivedAllRS232.append(receivedData);
 					        				    //Call Update webservice RS232.
 					        					if (StringUtils.isNotEmpty(receivedData)) {
-						        				    updateColor(receivedData.trim());
+					        						lstStringReceivedRS232 = processReceivedData(strReceivedAllRS232);
+						        				    updateColor();
 					        					}
 					        				    logger.info("Calling update WS RS232 ");
 					        				    productController.updateRS232(txtProductCode.getText().trim());
@@ -165,6 +169,14 @@ public class ProductFrame extends JFrame {
 					    			}
 				    		    }
 				    		}
+				    /***
+				     * Process a long string into list strings.
+				     * @param strReceivedAllRS232
+				     * @return
+				     */
+					private List<String> processReceivedData(StringBuilder strReceivedAllRS232) {
+						 return Arrays.asList(StringUtils.splitByWholeSeparator(strReceivedAllRS232.toString().replace("A", "~A"), "~"));
+					}
    
 				});
 			} catch (SerialPortException e) {
@@ -920,8 +932,7 @@ public class ProductFrame extends JFrame {
 		        	if (vog != null) {
 		        		if (getReceivedDataCom() != null 
 		        				&& getReceivedDataCom().length() > 0 
-		        				&& vog.getComRS232().toString().equals(getReceivedDataCom())) {
-		        			System.out.println("Change color");
+		        				&&  lstStringReceivedRS232.contains(vog.getComRS232().toString())) {
 		        		    setBackground(Color.green);
 		        		    mapColor.put(productCode, Color.green.toString());
 		        		}
@@ -933,8 +944,7 @@ public class ProductFrame extends JFrame {
 	    }
 	}
 	
-	public void updateColor(String receivedData) {
-	    setReceivedDataCom(receivedData);
+	public void updateColor() {
 	    jTableData.repaint();
 	}
 
